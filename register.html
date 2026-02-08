@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register</title>
+
+<style>
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+    background-image: url("image.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Animations */
+@keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.register-box {
+    width: 320px;
+    padding: 25px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.95);
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    animation: slideUp 0.8s ease-out;
+}
+
+.register-box h2 { margin-bottom: 20px; }
+
+.register-box label {
+    display: block;
+    text-align: left;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.register-box input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+}
+
+.register-box input:focus { border-color: #000; }
+
+/* The Dynamic Warning/Success Box */
+#status-message {
+    display: none; 
+    font-size: 13px;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    /* This makes it "flash" or pop in */
+    animation: slideUp 0.3s ease-out; 
+}
+
+.error-style {
+    display: block !important;
+    background-color: #ffdce0;
+    color: #af061a;
+    border: 1px solid #af061a;
+    animation: shake 0.2s ease-in-out 2 !important; /* Shakes on error */
+}
+
+.success-style {
+    display: block !important;
+    background-color: #e6ffec;
+    color: #1a7f37;
+    border: 1px solid #1a7f37;
+}
+
+.done-btn {
+    width: 100%;
+    padding: 11px;
+    background-color: #000;
+    color: #fff;
+    border-radius: 22px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.done-btn:hover { background-color: #333; }
+
+.login-link { margin-top: 15px; font-size: 13px; }
+.login-link a { color: #000; font-weight: bold; text-decoration: none; }
+</style>
+</head>
+
+<body>
+
+<div class="register-box">
+    <h2>Create Account</h2>
+
+    <div id="status-message"></div>
+
+    <form id="regForm">
+        <label>Email</label>
+        <input type="email" id="email" placeholder="Enter your email">
+
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Create a password">
+
+        <label>Confirm Password</label>
+        <input type="password" id="confirmPassword" placeholder="Repeat your password">
+
+        <button type="submit" class="done-btn">REGISTER</button>
+    </form>
+
+    <div class="login-link">
+        Already have an account?
+        <a href="login.html">Log In</a>
+    </div>
+</div>
+
+<script>
+const regForm = document.getElementById('regForm');
+const statusBox = document.getElementById("status-message");
+
+regForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const confirmPassword = document.getElementById("confirmPassword").value.trim();
+
+    // Reset box
+    statusBox.className = ""; 
+    statusBox.style.display = "none";
+
+    // 1. Validation Logic
+    if (email === "" || password === "" || confirmPassword === "") {
+        showStatus("Error: All fields are required!", "error-style");
+    } 
+    else if (password !== confirmPassword) {
+        showStatus("Error: Passwords do not match!", "error-style");
+    } 
+    else {
+        // 2. Success Logic
+        showStatus("Account created! Redirecting to login page...", "success-style");
+        
+        // Disable button
+        const btn = document.querySelector('.done-btn');
+        btn.disabled = true;
+        btn.style.opacity = "0.5";
+
+        // Redirect after 2 seconds
+        setTimeout(() => {
+            window.location.href = "login.html";
+        }, 4000);
+    }
+});
+
+function showStatus(text, className) {
+    statusBox.innerText = text;
+    statusBox.className = className;
+    statusBox.style.display = "block";
+}
+</script>
+
+</body>
+</html>

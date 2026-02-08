@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Science Explorer | Constellations</title>
+
+<style>
+/* --- THEME COLORS --- */
+:root {
+    --primary: #1e88e5;
+    --accent: #64ffda;
+    --dark: #0d47a1;
+    --deep: #0a2a66;
+    --card-bg: #051937; 
+    --obs-bg: #020b1a;  
+}
+
+/* NO HORIZONTAL SCROLL */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    overflow-x: hidden; 
+    font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: radial-gradient(circle at top right, #64ffda33, transparent 40%),
+                linear-gradient(135deg, #0d47a1, #1e88e5);
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+}
+
+/* --- HEADER RESTORED TO ORIGINAL --- */
+header {
+    display: flex; align-items: center; padding: 16px 24px;
+    backdrop-filter: blur(12px); background: rgba(255,255,255,0.08);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.35); position: sticky; top: 0; z-index: 1000;
+    font-size:11.5px;
+}
+.menu-btn {
+    font-size: 24px;
+    cursor: pointer;
+    padding: 8px 14px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.menu-btn:hover {
+    background: rgba(255,255,255,0.25);
+    transform: rotate(90deg);
+}
+
+/* DROPDOWN MENU */
+.menu-dropdown {
+    position: absolute;
+    top: 70px;
+    left: 24px;
+    width: 300px;
+    background: linear-gradient(160deg, #0a2a66, #0d47a1);
+    border-radius: 18px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.45);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 100;
+}
+
+.menu-dropdown a {
+    padding: 16px 22px;
+    text-decoration: none;
+    color: #e3f2fd;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: 0.35s;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    font-size: 15px;
+}
+
+.menu-dropdown a:last-child {
+    border-bottom: none;
+}
+
+.menu-dropdown a:hover {
+    background: linear-gradient(90deg, rgba(100,255,218,0.25), transparent);
+    color: var(--accent);
+    padding-left: 30px;
+}
+
+.menu-dropdown a:hover { background: linear-gradient(90deg, rgba(100,255,218,0.25), transparent); color: var(--accent); padding-left: 30px; }
+
+nav { display: flex; gap: 40px; margin-left: auto; margin-right: 40px; }
+nav a { color: #fff; text-decoration: none; font-weight: 600; position: relative; }
+nav a::after { content: ""; position: absolute; width: 0; height: 3px; bottom: -6px; left: 0; background: var(--accent); transition: 0.3s; }
+nav a:hover::after { width: 100%; }
+
+.profile { display: flex; align-items: center; gap: 10px; }
+.profile-icon { width: 38px; height: 38px; border-radius: 50%; background: radial-gradient(circle, #64ffda, #1e88e5); display: flex; align-items: center; justify-content: center; }
+
+/* --- CONSTELLATION GRID (FIXED CENTERING) --- */
+main { padding: 40px 15px; width: 100%; display: flex; justify-content: center; }
+
+.constellation-wrapper { width: 100%; max-width: 900px; }
+
+.page-title { text-align: center; font-size: 2.5rem; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 3px; }
+
+.zodiac-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 20px;
+    width: 100%;
+}
+
+.zodiac-item {
+    background: var(--card-bg); 
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 40px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.zodiac-item:hover { transform: translateY(-5px); border-color: var(--accent); }
+
+.star-icon {
+    font-size: 3.5rem; margin-bottom: 15px;
+    background: linear-gradient(135deg, #a855f7, #6366f1);
+    padding: 12px; border-radius: 15px;
+    filter: drop-shadow(0 0 10px var(--accent));
+}
+
+.zodiac-item h3 { font-size: 1.5rem; color: #fff; text-transform: uppercase; }
+
+/* --- NEW OBSERVATORY DETAIL (LONG INFO) --- */
+#constellationDetail { display: none; width: 100%; animation: zoomIn 0.5s ease; }
+
+@keyframes zoomIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+.back-btn { background: transparent; color: var(--accent); border: 1px solid var(--accent); padding: 8px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; display: inline-block; margin-bottom: 25px; }
+
+.observatory-screen {
+    background: var(--obs-bg); border: 4px solid var(--dark); border-radius: 40px;
+    padding: 60px 25px; text-align: center;
+    box-shadow: inset 0 0 50px rgba(30, 136, 229, 0.3), 0 20px 60px rgba(0,0,0,0.6);
+}
+
+.detail-icon-large { font-size: 6rem; margin-bottom: 20px; display: block; filter: drop-shadow(0 0 20px var(--accent)); }
+
+.observatory-screen h2 { font-size: 3rem; color: var(--accent); text-transform: uppercase; letter-spacing: 8px; margin-bottom: 10px; }
+
+.zodiac-date { font-size: 1.3rem; color: var(--accent); font-weight: bold; margin-bottom: 30px; display: block; }
+
+.info-text { line-height: 2; font-size: 1.1rem; color: #e3f2fd; max-width: 700px; margin: 0 auto; text-align: justify; }
+
+.coord-footer { margin-top: 40px; font-family: monospace; color: var(--primary); font-size: 0.9rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; }
+
+footer { text-align: center; padding: 20px; background: rgba(0,0,0,0.3); font-size: 0.9rem; margin-top: 40px; }
+
+@media (max-width: 600px) { .zodiac-grid { gap: 15px; } }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+    <div class="menu-dropdown" id="menuDropdown">
+        <a href="branches.html">🧬 Branches of Science</a>
+        <a href="#" onclick="showHome()">🌌 Constellations</a>
+        <a href="planets.html">🪐 Planet Categories</a>
+    </div>
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="games.html">Games</a>
+        <a href="about-us.html">About Us</a>
+    </nav>
+    <div class="profile">
+        <div class="profile-icon">👤</div>
+        <span id="profileName">Guest</span>
+    </div>
+</header>
+
+<main>
+    <div class="constellation-wrapper">
+        <div id="listView">
+            <h1 class="page-title">Celestial Catalog</h1>
+            <div class="zodiac-grid" id="zGrid"></div>
+        </div>
+
+        <div id="constellationDetail">
+            <div class="back-btn" onclick="showHome()">← RETURN TO CATALOG</div>
+            <div id="detailContainer" class="observatory-screen"></div>
+        </div>
+    </div>
+</main>
+
+<footer>© 2026 by Anica Borja</footer>
+
+<script>
+const stars = [
+    { name: "Aries", icon: "♈", date: "March 21 – April 19", sector: "Alpha-01", 
+      info: "Aries represents the Ram with the Golden Fleece from Greek mythology. This ram was sent by the goddess Nephele to rescue her children, Phrixus and Helle, from their stepmother. After its sacrifice, Zeus placed the ram among the stars. Historically, Aries is highly significant as it once contained the vernal equinox—the point where the sun crosses the celestial equator from south to north. It is a constellation of leadership, courage, and bold beginnings." },
+    { name: "Leo", icon: "♌", date: "July 23 – August 22", sector: "Delta-05", 
+      info: "Leo is one of the most recognizable constellations in the sky, famously associated with the Nemean Lion slain by Hercules as the first of his twelve labors. The lion’s skin was impenetrable, so Hercules had to use his bare hands to defeat it. Its brightest star, Regulus, is known as the 'Little King' and sits at the heart of the lion. For thousands of years, civilizations have looked to Leo as a symbol of royalty, power, and the scorching heat of the summer sun." },
+    { name: "Cancer", icon: "♋", date: "June 21 – July 22", sector: "Beta-04", 
+      info: "Cancer, the Crab, is a subtle constellation with a deep history. In mythology, the crab was sent by Hera to distract Hercules during his battle with the multi-headed Hydra. Though Hercules crushed the crab, Hera honored its loyalty by placing it in the heavens. Despite its faint stars, it contains the 'Beehive Cluster' (Messier 44), one of the nearest open clusters to Earth. It represents protection, intuition, and the quiet strength of the emotional tides." },
+    { name: "Libra", icon: "♎", date: "September 23 – October 22", sector: "Gamma-07", 
+      info: "Libra is unique as the only zodiac sign represented by an object rather than a living creature. These are the Scales of Justice, held by the goddess Astraea (represented by the neighboring constellation Virgo). In ancient Rome, the moon was said to be in Libra when the city was founded. It marks the time of the autumnal equinox, when day and night are of equal length across the globe. Libra is the eternal symbol of balance, fairness, and cosmic law." },
+    { name: "Taurus", icon: "♉", date: "April 20 – May 20", sector: "Alpha-02", 
+      info: "Taurus, the Bull, is an ancient constellation dating back to the Early Bronze Age. It represents the bull form taken by Zeus to kidnap the Phoenician princess Europa. It is home to the Pleiades (the Seven Sisters), the most famous star cluster in the night sky, and the red giant star Aldebaran, which serves as the bull's fiery eye. Taurus has been worshipped by various cultures as a symbol of strength, fertility, and the grounding energy of the Earth." },
+    { name: "Gemini", icon: "♊", date: "May 21 – June 20", sector: "Alpha-03", 
+      info: "Gemini represents the inseparable twins, Castor and Pollux. In Greek myth, they were the sons of Leda, but they had different fathers; one was mortal and the other was the son of Zeus. When the mortal twin died, Zeus granted them both immortality so they could stay together forever in the stars. The constellation is high in the sky during the winter months and serves as a beacon of duality, communication, and the unbreakable bond of brotherhood." },
+    { name: "Virgo", icon: "♍", date: "August 23 – September 22", sector: "Delta-06", 
+      info: "Virgo is the second-largest constellation in the sky. She is often identified as Persephone or Dike, the goddess of justice. She is depicted holding a shaft of wheat, marked by the brilliant blue-white star Spica. Virgo is deeply tied to the cycles of the harvest and the transition from summer into autumn. Because the sun passes through Virgo during the harvest season in the northern hemisphere, she has remained a symbol of purity, agriculture, and the rewarding results of hard work." },
+    { name: "Scorpio", icon: "♏", date: "October 23 – November 21", sector: "Epsilon-08", 
+      info: "Scorpio is a stunning constellation that actually looks like its namesake. In mythology, it is the scorpion sent by Gaia to kill Orion the Hunter after he boasted he would slay every animal on Earth. Because of their rivalry, Orion and Scorpio are never seen in the sky at the same time; when Scorpio rises, Orion sets. Its heart is the massive red supergiant star Antares, often called the 'Rival of Mars' because of its deep red color. It represents transformation, intensity, and mystery." }
+];
+
+function buildGrid() {
+    const grid = document.getElementById('zGrid');
+    stars.forEach(s => {
+        const div = document.createElement('div');
+        div.className = 'zodiac-item';
+        div.onclick = () => openDetail(s);
+        div.innerHTML = `<div class="star-icon">${s.icon}</div><h3>${s.name}</h3>`;
+        grid.appendChild(div);
+    });
+}
+
+function openDetail(s) {
+    document.getElementById('listView').style.display = 'none';
+    const detail = document.getElementById('constellationDetail');
+    detail.style.display = 'block';
+    const lat = (Math.random() * 90).toFixed(2);
+    const long = (Math.random() * 180).toFixed(2);
+    document.getElementById('detailContainer').innerHTML = `
+        <span class="detail-icon-large">${s.icon}</span>
+        <h2>${s.name}</h2>
+        <span class="zodiac-date">${s.date}</span>
+        <div class="info-text">${s.info}</div>
+        <div class="coord-footer">
+            [ SCANNING SECTOR: ${s.sector} ] <br>
+            LOCATION: ${lat}° N / ${long}° E // STATUS: ACTIVE
+        </div>
+    `;
+    window.scrollTo(0,0);
+}
+
+function showHome() {
+    document.getElementById('constellationDetail').style.display = 'none';
+    document.getElementById('listView').style.display = 'block';
+}
+
+function toggleMenu() {
+    const menu = document.getElementById("menuDropdown");
+    menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+}
+
+buildGrid();
+</script>
+</body>
+</html>

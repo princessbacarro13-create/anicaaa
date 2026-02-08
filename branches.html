@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Science Explorer | Branches</title>
+
+<style>
+:root {
+    --primary: #1e88e5;
+    --accent: #64ffda;
+    --dark: #0d47a1;
+    --deep: #0a2a66;
+}
+
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    overflow-x: hidden;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top right, #64ffda33, transparent 40%),
+        linear-gradient(135deg, #0d47a1, #1e88e5);
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+}
+
+/* HEADER - EXACTLY FROM YOUR ORIGINAL */
+header {
+    display: flex;
+    align-items: center;
+    padding: 16px 24px;
+    backdrop-filter: blur(12px);
+    background: rgba(255,255,255,0.08);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    font-size: 11.5px;
+}
+.menu-btn {
+    font-size: 24px;
+    cursor: pointer;
+    padding: 8px 14px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.menu-btn:hover {
+    background: rgba(255,255,255,0.25);
+    transform: rotate(90deg);
+}
+
+/* DROPDOWN MENU */
+.menu-dropdown {
+    position: absolute;
+    top: 70px;
+    left: 24px;
+    width: 300px;
+    background: linear-gradient(160deg, #0a2a66, #0d47a1);
+    border-radius: 18px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.45);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 100;
+}
+
+.menu-dropdown a {
+    padding: 16px 22px;
+    text-decoration: none;
+    color: #e3f2fd;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: 0.35s;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    font-size: 15px;
+}
+
+.menu-dropdown a:last-child {
+    border-bottom: none;
+}
+
+.menu-dropdown a:hover {
+    background: linear-gradient(90deg, rgba(100,255,218,0.25), transparent);
+    color: var(--accent);
+    padding-left: 30px;
+}
+
+/* NAV - RESTORED */
+nav {
+    display: flex;
+    gap: 40px;
+    margin-left: auto;
+    margin-right: 40px;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    position: relative;
+}
+
+nav a::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 3px;
+    bottom: -6px;
+    left: 0;
+    background: var(--accent);
+    transition: 0.3s;
+}
+
+nav a:hover { color: var(--accent); }
+nav a:hover::after { width: 100%; }
+
+/* PROFILE */
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #64ffda, #1e88e5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* MAIN CONTENT BOX */
+main {
+    flex: 1;
+    padding: 30px 20px;
+}
+
+.content-box {
+    max-width: 1100px;
+    margin: auto;
+    background: #ffffff;
+    color: #333;
+    padding: 40px;
+    border-radius: 22px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.35);
+}
+
+h1 { color: #0d47a1; text-align: center; margin-bottom: 40px; font-size: 2.5rem; }
+
+/* BRANCH GRID - CENTERED & ANIMATED */
+.branch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.branch-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* CENTERED */
+    text-align: center;    /* CENTERED */
+    padding: 30px;
+    border-radius: 20px;
+    background: #fdfdfd;
+    border: 1px solid #eee;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.branch-item:hover {
+    transform: translateY(-15px); /* SWIPE/LIFT EFFECT */
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    border-color: var(--primary);
+}
+
+.branch-pic {
+    width: 70px;
+    height: 70px;
+    background: #e3f2fd;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+}
+
+.branch-item h3 { color: var(--dark); font-size: 1.4rem; margin-bottom: 10px; }
+.branch-item p { color: #555; font-size: 0.95rem; line-height: 1.5; }
+
+/* DETAIL VIEW */
+#detailView { display: none; animation: slideUp 0.5s ease; }
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.back-btn {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: var(--primary);
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.detail-header { text-align: center; margin-bottom: 30px; }
+.detail-img-large {
+    width: 100px; height: 100px; background: var(--deep);
+    border-radius: 20px; display: flex; align-items: center;
+    justify-content: center; font-size: 3.5rem; margin: 0 auto 15px;
+}
+
+.detail-content p { 
+    line-height: 1.8; margin-bottom: 20px; 
+    text-align: center; /* CENTERED DETAIL INFO */
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 14px;
+    background: rgba(0,0,0,0.35);
+    font-size: 0.9rem;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+    <div class="menu-dropdown" id="menuDropdown">
+        <a href="#" onclick="showHome()">🧬 Branches of Science</a>
+        <a href="constellations.html">🌌 Constellations</a>
+        <a href="planets.html">🪐 Planet Categories</a>
+    </div>
+
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="games.html">Games</a>
+        <a href="about-us.html">About Us</a>
+    </nav>
+
+    <div class="profile">
+        <div class="profile-icon">👤</div>
+        <span id="profileName">Guest</span>
+    </div>
+</header>
+
+<main>
+<div class="content-box">
+    <div id="listView">
+        <h1>Branches of Science</h1>
+        <div class="branch-grid" id="gridContainer"></div>
+    </div>
+
+    <div id="detailView">
+        <div class="back-btn" onclick="showHome()">← Back to List</div>
+        <div id="detailContainer"></div>
+    </div>
+</div>
+</main>
+
+<footer>
+© 2026 by Anica Borja
+</footer>
+
+<script>
+// Science Content Data
+const scienceData = [
+    { id: 1, name: "Biology", icon: "🌿", desc: "The study of living organisms and life processes.", info: "Biology is a vast field that explores everything from the molecular machinery of cells to the complex interactions within entire ecosystems. It helps us understand how life evolves and adapts." },
+    { id: 2, name: "Physics", icon: "⚛️", desc: "The study of matter, energy, and fundamental forces.", info: "Physics investigates the laws of the universe, covering gravity, electromagnetism, and nuclear forces. It explains how everything from subatomic particles to galaxies move." },
+    { id: 3, name: "Chemistry", icon: "🧪", desc: "The study of substances and their chemical reactions.", info: "Chemistry explores how atoms bond to form molecules and how these substances interact. It is the foundation for creating new materials and medicines." },
+    { id: 4, name: "Astronomy", icon: "🔭", desc: "The study of celestial objects and the universe.", info: "Astronomy observes stars, planets, and galaxies to uncover the origins of space and time. It uses advanced telescopes to look billions of years into the past." },
+    { id: 5, name: "Geology", icon: "💎", desc: "The study of Earth's rocks and physical structure.", info: "Geologists examine the Earth's crust to understand its history, tectonic movements, and the formation of natural resources like minerals and energy." },
+    { id: 6, name: "Meteorology", icon: "☁️", desc: "The study of the atmosphere and weather.", info: "Meteorology focuses on predicting weather patterns and understanding climate change, which is essential for global safety and agriculture." },
+    { id: 7, name: "Oceanography", icon: "🌊", desc: "The study of the physical and biological ocean.", info: "Oceanography explores the deep sea, marine life, and ocean currents, playing a vital role in monitoring the Earth's health." },
+    { id: 8, name: "Paleontology", icon: "🦖", desc: "The study of fossils and prehistoric life.", info: "Paleontologists reconstruct the history of life on Earth by studying fossils, helping us understand evolution and ancient climates." },
+    { id: 9, name: "Psychology", icon: "🧠", desc: "The study of the human mind and behavior.", info: "Psychology applies scientific methods to understand thoughts, emotions, and social interactions to improve mental well-being." },
+    { id: 10, name: "Ecology", icon: "🌳", desc: "The study of organisms and their environment.", info: "Ecology focuses on the delicate balance of nature and how living things interact with their physical surroundings." },
+    { id: 11, name: "Genetics", icon: "🧬", desc: "The study of genes, DNA, and heredity.", info: "Genetics reveals how traits are passed down and is the key to modern medical breakthroughs and biotechnology." },
+    { id: 12, name: "Botany", icon: "🍄", desc: "The scientific study of plants and flora.", info: "Botany is essential for food security and medicine, studying how plants grow and produce oxygen for our planet." },
+    { id: 13, name: "Zoology", icon: "🐘", desc: "The study of animals and their behavior.", info: "Zoology examines animal physiology and habitats to help protect biodiversity and understand the animal kingdom." },
+    { id: 14, name: "Microbiology", icon: "🦠", desc: "The study of microscopic life like bacteria.", info: "Microbiology explores the tiny organisms that affect our health, environment, and food production." },
+    { id: 15, name: "Mathematics", icon: "🔢", desc: "The logic of quantity, shape, and space.", info: "Math is the language of all science, providing the formulas and logic needed to prove scientific theories." },
+    { id: 16, name: "Computer Science", icon: "💻", desc: "The study of computation and digital systems.", info: "Computer science drives innovation through algorithms, artificial intelligence, and software development." },
+    { id: 17, name: "Medicine", icon: "🏥", desc: "The science of diagnosing and treating illness.", info: "Medicine applies biology and chemistry to maintain human health and develop life-saving treatments." },
+    { id: 18, name: "Archaeology", icon: "🏛️", desc: "The study of human history via artifacts.", info: "Archaeology pieces together human civilizations by excavating remains and artifacts from the past." },
+    { id: 19, name: "Volcanology", icon: "🌋", desc: "The study of volcanoes and magma.", info: "Volcanology helps monitor volcanic activity to predict eruptions and understand Earth's internal heat." },
+    { id: 20, name: "Sociology", icon: "⚖️", desc: "The study of society and social patterns.", info: "Sociology investigates how people behave in groups and how social structures influence our daily lives." }
+];
+
+function renderGrid() {
+    const container = document.getElementById('gridContainer');
+    scienceData.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'branch-item';
+        div.onclick = () => showDetail(item.id);
+        div.innerHTML = `
+            <div class="branch-pic">${item.icon}</div>
+            <h3>${item.name}</h3>
+            <p>${item.desc}</p>
+        `;
+        container.appendChild(div);
+    });
+}
+
+function showDetail(id) {
+    const item = scienceData.find(x => x.id === id);
+    document.getElementById('listView').style.display = 'none';
+    const detailView = document.getElementById('detailView');
+    detailView.style.display = 'block';
+
+    document.getElementById('detailContainer').innerHTML = `
+        <div class="detail-header">
+            <div class="detail-img-large">${item.icon}</div>
+            <h2 style="color:var(--dark); font-size: 2.2rem;">${item.name}</h2>
+        </div>
+        <div class="detail-content">
+            <p><strong>Overview:</strong> ${item.desc}</p>
+            <p><strong>Scientific Insight:</strong> ${item.info}</p>
+            <p>Exploring the world through the lens of ${item.name} provides us with critical data to understand the past and build a better future.</p>
+        </div>
+    `;
+    window.scrollTo(0, 0);
+}
+
+function showHome() {
+    document.getElementById('detailView').style.display = 'none';
+    document.getElementById('listView').style.display = 'block';
+    window.scrollTo(0, 0);
+}
+
+function toggleMenu() {
+    const menu = document.getElementById("menuDropdown");
+    menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+}
+
+// Close menu if clicking outside
+document.addEventListener("click", function (e) {
+    const menu = document.getElementById("menuDropdown");
+    const btn = document.querySelector(".menu-btn");
+    if (menu.style.display === "flex" && !menu.contains(e.target) && !btn.contains(e.target)) {
+        menu.style.display = "none";
+    }
+});
+
+renderGrid();
+</script>
+
+</body>
+</html>

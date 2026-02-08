@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us | Science Explorer</title>
+
+<style>
+:root {
+    --primary: #1e88e5;
+    --accent: #64ffda;
+    --dark: #0d47a1;
+    --deep: #0a2a66;
+}
+
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    overflow-x: hidden;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+/* BODY */
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top right, #64ffda33, transparent 40%),
+        linear-gradient(135deg, #0d47a1, #1e88e5);
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+}
+
+/* HEADER */
+header {
+    display: flex;
+    align-items: center;
+    padding: 16px 24px;
+    backdrop-filter: blur(12px);
+    background: rgba(255,255,255,0.08);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+    position: relative;
+    font-size:11.5px;
+}
+
+/* MENU BUTTON */
+.menu-btn {
+    font-size: 24px;
+    cursor: pointer;
+    padding: 8px 14px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.menu-btn:hover {
+    background: rgba(255,255,255,0.25);
+    transform: rotate(90deg);
+}
+
+/* DROPDOWN MENU */
+.menu-dropdown {
+    position: absolute;
+    top: 70px;
+    left: 24px;
+    width: 300px;
+    background: linear-gradient(160deg, #0a2a66, #0d47a1);
+    border-radius: 18px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.45);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 100;
+}
+
+.menu-dropdown a {
+    padding: 16px 22px;
+    text-decoration: none;
+    color: #e3f2fd;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: 0.35s;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    font-size: 15px;
+}
+
+.menu-dropdown a:hover {
+    background: linear-gradient(90deg, rgba(100,255,218,0.25), transparent);
+    color: var(--accent);
+    padding-left: 30px;
+}
+
+/* NAV */
+nav {
+    display: flex;
+    gap: 40px;
+    margin-left: auto;
+    margin-right: 40px;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    position: relative;
+}
+
+nav a::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 3px;
+    bottom: -6px;
+    left: 0;
+    background: var(--accent);
+    transition: 0.3s;
+}
+
+nav a:hover { color: var(--accent); }
+nav a:hover::after { width: 100%; }
+
+/* PROFILE */
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #64ffda, #1e88e5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* MAIN */
+main {
+    flex: 1;
+    padding: 30px 20px;
+}
+
+.content-box {
+    max-width: 950px;
+    margin: auto;
+    background: #ffffff;
+    color: #333;
+    padding: 40px;
+    border-radius: 22px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.35);
+}
+
+h1 {
+    color: #0d47a1;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+p {
+    line-height: 1.8;
+    margin-bottom: 18px;
+    text-align: justify;
+}
+
+/* REFERENCES SECTION */
+.references-section {
+    margin-top: 40px;
+    padding-top: 25px;
+    border-top: 2px solid #f0f0f0;
+}
+
+.references-section h3 {
+    color: #444;
+    margin-bottom: 15px;
+}
+
+.ref-item {
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 12px;
+    padding-left: 35px;
+    text-indent: -35px; /* APA Hanging Indent */
+    color: #555;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 14px;
+    background: rgba(0,0,0,0.35);
+    font-size: 0.9rem;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+    <div class="menu-dropdown" id="menuDropdown">
+        <a href="branches.html">🧬 Branches of Science</a>
+        <a href="constellations.html">🌌 Constellations</a>
+        <a href="planets.html">🪐 Planets</a>
+        <a href="#" onclick="logout()" style="color: #ff5252; border-top: 1px solid rgba(255,255,255,0.2);">🚪 Log Out</a>
+    </div>
+
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="games.html">Games</a>
+        <a href="about-us.html">About Us</a>
+    </nav>
+
+    <div class="profile">
+        <div class="profile-icon">👤</div>
+        <span id="profileName">Guest</span>
+    </div>
+</header>
+
+<main>
+    <div class="content-box">
+        <h1>About Us</h1>
+
+        <p>
+            This webpage is about science and it contains a lot of information on different topics. Inviting exploration of the mysteries of the universe and the natural world. It delves into fascinating realms, including constellations, planets, and branches of science. The content aims to uncover the stories behind the stars, journey through the solar system, and explore the various disciplines that help understand the world.
+        </p>
+
+        <p>
+            The goal is to make learning science a fun and creative experience, presenting information in an engaging and entertaining way to inspire curiosity and foster a deeper understanding of the universe and its many wonders. By integrating interactive games, we aim to bridge the gap between complex data and curious minds.
+        </p>
+
+        <div class="references-section">
+            <h3>References</h3>
+            
+            <div class="ref-item">
+                American Association for the Advancement of Science. (2024). <i>Science for all Americans: The nature of science</i>. Project 2061. https://www.aaas.org/
+            </div>
+
+            <div class="ref-item">
+                California Academy of Sciences. (n.d.). <i>Astronomy resources: Deepening our connection to the stars</i>. https://www.calacademy.org/
+            </div>
+
+            <div class="ref-item">
+                European Southern Observatory. (2023). <i>The hidden stories of constellations and stars</i>. https://www.eso.org/public/
+            </div>
+
+            <div class="ref-item">
+                International Astronomical Union. (n.d.). <i>Constellations: Names and boundaries</i>. https://www.iau.org/public/themes/constellations/
+            </div>
+
+            <div class="ref-item">
+                Jet Propulsion Laboratory. (2024). <i>Planetary exploration: Our missions to the solar system</i>. California Institute of Technology / NASA. https://www.jpl.nasa.gov/
+            </div>
+
+            <div class="ref-item">
+                NASA. (2024). <i>Planets: Facts and information about our solar system</i>. National Aeronautics and Space Administration. https://science.nasa.gov/solar-system/planets/
+            </div>
+
+            <div class="ref-item">
+                National Research Council. (2012). <i>A framework for K-12 science education: Practices, crosscutting concepts, and core ideas</i>. The National Academies Press. https://doi.org/10.17226/13165
+            </div>
+
+            <div class="ref-item">
+                National Science Teaching Association. (2023). <i>Encouraging scientific inquiry in the digital age</i>. https://www.nsta.org/
+            </div>
+
+            <div class="ref-item">
+                Oxford University Press. (n.d.). <i>The history and branches of modern science</i>. Oxford Academic. https://academic.oup.com/
+            </div>
+
+            <div class="ref-item">
+                Royal Astronomical Society. (2023). <i>Planetary science and the evolution of our solar system</i>. https://ras.ac.uk/
+            </div>
+
+            <div class="ref-item">
+                Science Museum Group. (n.d.). <i>The history of scientific disciplines</i>. https://www.sciencemuseum.org.uk/
+            </div>
+
+            <div class="ref-item">
+                World Health Organization. (2024). <i>The role of life sciences in global health</i>. https://www.who.int/
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+© 2026 by Anica Borja
+</footer>
+
+<script>
+function toggleMenu() {
+    const menu = document.getElementById("menuDropdown");
+    menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+}
+
+function logout() {
+    localStorage.removeItem("username");
+    alert("Logging out... See you soon!");
+    window.location.href = "index.html"; 
+}
+
+document.addEventListener("click", function (e) {
+    const menu = document.getElementById("menuDropdown");
+    const btn = document.querySelector(".menu-btn");
+    if (menu && btn && !menu.contains(e.target) && !btn.contains(e.target)) {
+        menu.style.display = "none";
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const username = localStorage.getItem("username");
+    if (username) {
+        document.getElementById("profileName").textContent = username;
+    }
+});
+</script>
+
+</body>
+</html>
